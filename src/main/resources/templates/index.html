@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">用户列表</a></li>
+    </ul>
+</div>
+<table id="userTable" class="tablelist" width="1000" border="1">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>用户名</th>
+        <th>角色Id</th>
+        <th>邮箱</th>
+        <th>创建时间</th>
+        <th>创建者</th>
+        <th>修改者</th>
+        <th>修改时间</th>
+        <th>离职时间</th>
+        <th>操作</th>
+    </tr>
+   <!-- <tr th:each="user:${alist}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.roleId}"></td>
+        <td th:text="${user.email}"></td>
+        <td><a th:href="@{'/godel/'+${user.id}}">删除</a></td>
+    </tr>-->
+    </thead>
+</table>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript">
+    function sc(obj) {
+        if(confirm("确认删除吗？"))
+        {
+            var id = $(obj).attr("id");
+            $.ajax({
+                        url:"/user/delete",
+                        type:"post",
+                        data:{id:id},
+                        dataType:"text",
+                        success:function (data) {
+                            if(data=="success")
+                            {
+                                alert("删除成功！");
+                                $(obj).parents("tr").remove();
+                            }else
+                            {
+                                alert("删除失败！");
+                            }
+                        },
+                        error:function (data) {
+                            alert("异常了，请联系管理员！");
+                        }
+            })
+        }
+    }
+    $(function(){
+        findAll();
+
+
+
+    function findAll() {
+        $.ajax({
+            url:"findAll",
+            dataType:"json",
+            type:"post",
+            success:function (data) {
+                <!--alert(data);-->
+                var html=null;
+                $(data).each(function(){
+                   html+="<tr><td>"+this.id+
+                           "</td><td>"+this.userName+
+                           "</td><td>"+this.roleId+
+                           "</td><td >"+this.email+
+                           "</td><td>"+this.createDate+
+                           "</td><td>"+this.creator+
+                           "</td><td>"+this.modify+
+                           "</td><td>"+this.modifyDate+
+                           "</td><td>"+this.departureDate+
+                           "</td><td><a href='#' id='"+this.id+"' onclick='sc(this)'>删除</a></td></tr>";
+
+                })
+                $("#userTable").append(html);
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

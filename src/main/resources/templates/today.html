@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:font-size="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">今日去向</a></li>
+    </ul>
+</div>
+<table id="todayTable" class="tablelist"  width="1000" border="1">
+    <thead>
+        <tr>
+            <th>标题</th>
+            <th>地点</th>
+            <th>内容</th>
+            <th>同行人员</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>创建者</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+</table>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript">
+
+    function sc(src) {
+        var id = $(src).attr("id");
+        if(confirm("确认修改?")){
+        window.location.href="/todaywhere/opop?id="+id;
+        }
+    }
+
+    findAll();
+
+    function findAll(){
+        $.ajax({
+            url:"findAll",
+            dataType:"json",
+            type:"post",
+            success:function(data){
+                <!--alert(data);-->
+                var html=null;
+                $(data).each(function(){
+                     html+="<tr><td>"+this.title+
+                           "</td><td>"+this.location+
+                           "</td><td>"+this.content+
+                           "</td><td>"+this.field+
+                           "</td><td>"+this.startTime+
+                           "</td><td>"+this.endTime+
+                           "</td><td>"+this.creator+
+                           "</td><td>"+this.status+
+                           "</td><td><a href='#' id='"+this.id+"' onclick='sc(this)'>修改</a></td></tr>";
+
+                })
+                $("#todayTable").append(html);
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

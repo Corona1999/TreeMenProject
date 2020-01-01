@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jbit.dao.ProjectAdvanceMoneyMapper">
+    <!--显示所有预支信息-->
+    <select id="findAll" resultType="ProjectAdvanceMoney">
+        SELECT p.*,(SELECT valueName FROM dictionary  d WHERE p.checkStatus=d.valueId AND typeCode='AUDIT_STATUS')AS asd
+        FROM projectadvancemoney p WHERE checkStatus=1 AND p.nextUser=#{nextUser}
+        <if test="productionContractId!=null and productionContractId!=''">
+            AND p.`productionContractId` LIKE concat('%',#{productionContractId},'%')
+        </if>
+        ORDER BY advanceTime DESC
+    </select>
+
+    <!--厂长提交审核-->
+    <update id="updateNextUser">
+        UPDATE projectadvancemoney SET nextUser=#{nextUser} WHERE id=#{id}
+    </update>
+
+    <!--财务提交审核-->
+    <update id="updateStatus">
+        UPDATE projectadvancemoney SET checkStatus=#{checkStatus} WHERE id=#{id}
+    </update>
+
+    <!--查询指定id的审核信息-->
+    <select id="findById" resultType="ProjectAdvanceMoney">
+        SELECT p.*, (SELECT valueName FROM dictionary  d WHERE p.checkStatus=d.valueId AND typeCode='AUDIT_STATUS')AS asd
+        FROM projectadvancemoney p WHERE id=#{id}
+    </select>
+</mapper>

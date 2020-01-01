@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:font-size="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">表单</a></li>
+    </ul>
+</div>
+<div class="formbody">
+<div class="formtitle"><span>今日去向</span></div>
+<form action="/todaywhere/update" method="post" class="forminfo">
+    <li><label>标题:</label><input type="text" name="title" th:value="${todayWhereAbout.title}"class="dfinput" /></li>
+    <li><label>是否公开:</label><input th:checked="${todayWhereAbout.isPublic eq 1}" th:value="${todayWhereAbout.isPublic}" type="radio" name="isPublic"/>是<input th:checked="${todayWhereAbout.isPublic eq 2}" th:value="${todayWhereAbout.isPublic}" type="radio" name="isPublic"/>否</li>
+    <li><label>地点:</label><input type="text" name="location" th:value="${todayWhereAbout.location}" class="dfinput" /></li>
+    <li><label>内容:</label><input type="text" name="content" th:value="${todayWhereAbout.content}" class="dfinput" /></li>
+    <li><label>同行人员:</label><input type="text" name="field" th:value="${todayWhereAbout.field}" class="dfinput" /></li>
+    <li><label>开始时间:</label><input type="date" name="startTime" th:value="${todayWhereAbout.startTime}" class="dfinput" /></li>
+    <li><label>结束时间:</label><input type="date" name="endTime" th:value="${todayWhereAbout.endTime}" class="dfinput" /><p class="reminder"></p></li>
+    <li><label>创建者:</label><input type="text" name="creator" th:value="${todayWhereAbout.creator}" class="dfinput" readonly="true"/>(不可修改)</li>
+    <li><label>状态:</label><input th:check="${todayWhereABout.status eq 1}" th:value="${todayWhereAbout.status}" class="dfinput" type="radio" name="status"/>正在进行<input th:check="${todayWhereABout.status}" th:value="${todayWhereAbout.status eq 2}" class="dfinput" type="radio" name="status"/>结束</li>
+    <li><input type="submit" value="提交"/></li>
+    <li><input type="button" value="返回" onclick="back()"/></li>
+</form>
+</div>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script>
+    function back(){
+        window.history.back(-1);
+    }
+
+    function check(startTime,endTime){
+<!--        if(startTime.length>0 && endTime.length>0){
+                var startTmp=startTime.split("-");
+                var endTmp=endTime.split("-");
+                var sd=new Date(startTmp[0],startTmp[1],startTmp[2]);
+                var ed=new Date(endTmp[0],endTmp[1],endTmp[2]);
+                if(sd.getTime()>ed.getTime()){
+                    alert("开始日期不能大于结束日期");
+                    return false;
+                }
+        }-->
+        return true;
+    }
+</script>
+</body>
+</html>

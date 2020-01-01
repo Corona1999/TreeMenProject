@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jbit.dao.UserMapper">
+    <!--通过id删除用户-->
+    <delete id="deleteUserById">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+    <!--查询所有-->
+    <select id="findAll"  resultType="User">
+        SELECT userName,`password`,email,createDate,creator,IFNULL(`modify`,'无'),IFNULL(ModifyDate,'无'),IFNULL(DepartureDate,'无') FROM `user`
+    </select>
+
+<!--    &lt;!&ndash;分页查询3条&ndash;&gt;
+    <select id="pageShare" resultMap="">
+        SELECT * FROM user limit 0,3
+    </select>-->
+
+</mapper>

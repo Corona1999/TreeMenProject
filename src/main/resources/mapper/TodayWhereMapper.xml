@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jbit.dao.TodayWhereMapper">
+    <!--查询所有-->
+    <select id="findAll" resultType="TodayWhereAbout">
+        SELECT * FROM todaywhereabout
+    </select>
+    <!--修改-->
+    <update id="updateTodayWhere">
+        UPDATE todaywhereabout SET isPublic=#{isPublic},title=#{title},location=#{location},content=#{content},field=#{field},status=#{status} WHERE id=#{id}
+    </update>
+
+    <select id="findById" resultType="TodayWhereAbout">
+        SELECT * FROM todaywhereabout WHERE id=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:font-size="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">表单</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    <div class="formtitle"><span>预支审核</span></div>
+<form action="/money/check" method="post" class="forminfo">
+    <li><label>ID</label><input type="text" class="dfinput" readonly="true" th:value="${p.id}" id="id"/><li>
+    <li><label>合同编号</label><input type="text" class="dfinput" readonly="true" th:value="${p.productionContractId}" /></li>
+    <li><label>预支款金额</label><input type="text" class="dfinput" readonly="true" th:value="${p.advanceMoney}" /></li>
+    <li><label>预支时间</label><input type="date" class="dfinput" readonly="true" th:value="${#dates.format(p.advanceTime,'yyyy-MM-dd')}" /></li>
+    <li><label>预支代表人</label><input type="text" class="dfinput" readonly="true" th:value="${p.advanceMan}" /></li>
+    <li><label>审核状态</label><input type="text" class="dfinput" readonly="true"  th:value="${p.asd}" /></li>
+    <li><label>&nbsp;</label><input type="button" class="btn" id="yes" value="审核通过" />
+                        <input type="button" class="btn" id="no" value="审核未通过" />
+                        <input type="button" class="btn" value="返回" onclick="back()"/></li>
+</form>
+</div>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript">
+    function back(){
+        window.history.back(-1);
+    }
+
+     $(function () {
+        $("#yes").click(function(){
+            var id=$("#id").val();
+            window.location.href="/money/check?checkStatus=2&id="+id;
+        });
+
+        $("#no").click(function(){
+            var id=$("#id").val();
+            window.location.href="/money/check?checkStatus=3&id="+id;
+        });
+    });
+</script>
+</body>
+</html>

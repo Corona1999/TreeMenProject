@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:font-size="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">预支审核</a></li>
+    </ul>
+</div>
+<ul class="seachform">
+    <li><label>合同编号：</label><input name="" type="text" class="scinput" id="productionContractId"/></li>
+    <li><label>&nbsp;</label><input name="" id="find" type="button" class="scbtn" value="查询"/></li>
+</ul>
+<table id="advanceTable" class="tablelist" width="1000" border="1">
+    <thead>
+        <tr>
+            <th>合同编号</th>
+            <th>预支款</th>
+            <th>审核状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody id="headName">
+
+    </tbody>
+</table>
+<div class="pagin" id="pagin">
+</div>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    function check(src) {
+        var id = $(src).attr("id");
+        if(confirm("确认审核?")){
+            window.location.href="/money/u?id="+id;
+        }
+    }
+
+    $(function() {
+            findAll();
+            $("#find").click(function () {
+                findAll();
+            });
+        })
+
+    function findAll(str){
+        var pageNum = $(str).attr("pageNum");
+        var productionContractId=$("#productionContractId").val();
+        $.ajax({
+            url:"/money/findAll",
+            dataType:"json",
+            type:"post",
+            data:{pageNum:pageNum,productionContractId:productionContractId},
+            success:function(data){
+
+                var html=null;
+                $(data.list).each(function(){
+                    html+="<tr><td>"+this.productionContractId+
+                          "</td><td>"+this.advanceMoney+
+                          "</td><td>"+this.asd+
+                          "</td><td><a href='#' id='"+this.id+"' onclick='check(this)'>审核</a></td></tr>";
+                })
+                $("#advanceTable").append(html);
+
+                var div = "<div class='message'>共<i class='blue'>" + data.total + "</i>条记录，当前显示第&nbsp;<i class='blue'>" + data.pageNum + "&nbsp;</i>页</div>";
+                div += "<ul class='paginList'>" +
+                            "<li class='paginItem'><a href='javascript:;' onclick='findAll(this)' pageNum='" + data.firstPage + "'>首页</a>" +
+                            "<li class='paginItem'><a href='javascript:;'  onclick='findAll(this)' pageNum='" + data.prePage + "'><span class='pagepre'></span></a>" +
+                            "<li class='paginItem'><a href='javascript:;'  onclick='findAll(this)' pageNum='" + data.nextPage + "'><span class='pagenxt'></span></a>" +
+                            "<li class='paginItem'><a href='javascript:;' onclick='findAll(this)' pageNum='" + data.lastPage + "'>末页</a></ul>";
+                $("#pagin").html(div);
+                $("#headName").html(html);
+            },
+            error:function () {
+                alert("请求错误");
+            }
+        })
+    }
+</script>
+</body>
+</html>
